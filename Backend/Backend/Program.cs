@@ -3,6 +3,21 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Define a policy name
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+// Add CORS services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5175") // Specify the allowed origins
+                  .AllowAnyHeader() // Allow any header to be sent
+                  .AllowAnyMethod(); // Allow any HTTP method (GET, POST, PUT, DELETE, etc.)
+        });
+});
+
 
 //services
 builder.Services.AddControllers();
@@ -12,7 +27,9 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlite(connect
 
 var app = builder.Build();
 
+app.UseCors(MyAllowSpecificOrigins);
+
 //middlewares
-app.MapControllers();       
+app.MapControllers();
 
 app.Run();
