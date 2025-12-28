@@ -12,7 +12,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy(name: MyAllowSpecificOrigins,
         policy =>
         {
-            policy.WithOrigins("http://localhost:5175") // Specify the allowed origins
+            policy.WithOrigins("http://localhost:5175", "http://localhost:8081") // Specify the allowed origins
                   .AllowAnyHeader() // Allow any header to be sent
                   .AllowAnyMethod(); // Allow any HTTP method (GET, POST, PUT, DELETE, etc.)
         });

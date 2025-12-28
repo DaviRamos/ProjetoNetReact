@@ -1,0 +1,23 @@
+name: ProjetoReactDotNet
+services:
+  backend:
+    container_name: projetoreact-backend-container
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./Backend/Backend/app.db:/app/app.db
+    environment:
+      - ConnectionStrings__DefaultConnection=Data Source=app.db
+
+  frontend:
+    container_name: projetoreact-frontend-container
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "8081:80"
+    depends_on:
+      - backend
